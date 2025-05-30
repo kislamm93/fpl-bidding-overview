@@ -4,7 +4,7 @@ import { Search, ArrowUpDown, ArrowUp, ArrowDown, Lock, ArrowRightLeft, Clock } 
 import TransferModal from '@/components/TransferModal';
 import SuccessModal from '@/components/SuccessModal';
 import { storage } from '@/services/storage';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import TopMenuBar from '@/components/TopMenuBar';
 
 interface Player {
@@ -30,10 +30,11 @@ type SortDirection = 'asc' | 'desc';
 
 const Players: React.FC = () => {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [players, setPlayers] = useState<Player[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState(searchParams.get('search') || '');
   const [sortField, setSortField] = useState<SortField>('name');
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
   const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
@@ -47,11 +48,11 @@ const Players: React.FC = () => {
     setHasSecretKey(!!secretKey);
   }, []);
 
-  const fetchPlayers = async () => {
+  const fetchPlayers = async (query: string) => {
     setIsLoading(true);
     setError(null);
     try {
-      const data = await api.getPlayers(searchQuery);
+      const data = await api.getPlayers(query);
       setPlayers(data);
     } catch (err) {
       setError('Failed to load players. Please try again later.');
@@ -62,12 +63,15 @@ const Players: React.FC = () => {
   };
 
   useEffect(() => {
-    const debounceTimer = setTimeout(() => {
-      fetchPlayers();
-    }, 300);
+    const query = searchParams.get('search') || '';
+    setSearchQuery(query);
+    fetchPlayers(query);
+  }, [searchParams]);
 
-    return () => clearTimeout(debounceTimer);
-  }, [searchQuery]);
+  const handleSearchChange = (value: string) => {
+    setSearchQuery(value);
+    setSearchParams(value ? { search: value } : {});
+  };
 
   const handleSort = (field: SortField) => {
     if (field === sortField) {
@@ -124,7 +128,7 @@ const Players: React.FC = () => {
   const handleSuccessModalClose = () => {
     setIsSuccessModalOpen(false);
     setTransferSuccess(null);
-    fetchPlayers(); // Refresh the player list
+    fetchPlayers(searchQuery); // Refresh the player list
   };
 
   const handleTeamClick = (teamId: string) => {
@@ -161,7 +165,7 @@ const Players: React.FC = () => {
               type="text"
               placeholder="Search players..."
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e) => handleSearchChange(e.target.value)}
               className="pl-10 pr-4 py-2 rounded-lg border border-slate-200 bg-white text-slate-900 focus:outline-none focus:ring-2 focus:ring-emerald-500"
             />
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
