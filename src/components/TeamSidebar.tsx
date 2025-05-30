@@ -170,7 +170,7 @@ const TeamSidebar: React.FC<TeamSidebarProps> = ({
       <div className="fixed right-0 top-0 h-full w-full max-w-xl bg-white shadow-xl z-50 overflow-hidden">
         <div className="h-full flex flex-col">
           {/* Header */}
-          <div className="p-6 border-b border-slate-200">
+          <div className="p-6 border-b border-slate-200 bg-white">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-4">
                 <div className="w-20 h-20 rounded-xl overflow-hidden bg-white shadow-md flex items-center justify-center border-2 border-slate-200">
@@ -216,26 +216,26 @@ const TeamSidebar: React.FC<TeamSidebarProps> = ({
           </div>
 
           {/* Content */}
-          <div className="flex-1 overflow-y-auto p-6">
+          <div className="overflow-y-auto">
             {isLoading ? (
               <div className="flex items-center justify-center h-full">
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-slate-900"></div>
               </div>
             ) : detailedTeam ? (
-              <div className="space-y-6">
+              <div className="space-y-6 p-6">
                 {/* Budget Overview */}
                 <div className="bg-slate-50 rounded-xl p-4">
                   <h3 className="text-sm font-semibold text-slate-900 mb-4">Budget Distribution</h3>
                   <div className="h-64">
                     <ResponsiveContainer width="100%" height="100%">
-                      <PieChart margin={{ right: 20, left: 20 }}>
+                      <PieChart margin={{ right: 10, left: 10 }}>
                         <Pie
                           data={getBudgetData(detailedTeam)}
-                          cx="40%"
+                          cx="50%"
                           cy="50%"
                           labelLine={false}
-                          outerRadius={80}
-                          innerRadius={40}
+                          outerRadius={100}
+                          innerRadius={50}
                           fill="#8884d8"
                           dataKey="value"
                           paddingAngle={2}
@@ -272,22 +272,6 @@ const TeamSidebar: React.FC<TeamSidebarProps> = ({
                             padding: '12px',
                           }}
                         />
-                        <Legend
-                          layout="vertical"
-                          verticalAlign="middle"
-                          align="right"
-                          iconType="circle"
-                          iconSize={8}
-                          formatter={(value, entry, index) => {
-                            const total = getBudgetData(detailedTeam).reduce((sum, item) => sum + item.value, 0);
-                            const percentage = ((entry.payload.value / total) * 100).toFixed(1);
-                            return `${value} (${percentage}%)`;
-                          }}
-                          wrapperStyle={{
-                            paddingLeft: '8px',
-                            fontSize: '14px',
-                          }}
-                        />
                       </PieChart>
                     </ResponsiveContainer>
                   </div>
@@ -316,20 +300,15 @@ const TeamSidebar: React.FC<TeamSidebarProps> = ({
                           key={player._id}
                           className={`p-4 bg-gradient-to-r from-slate-50 to-slate-100 rounded-lg border ${categoryColors.border} hover:shadow-md transition-all duration-200`}
                         >
-                          <div className="flex items-center justify-between mb-2">
-                            <h4 
-                              className="font-medium text-slate-900 hover:text-emerald-600 cursor-pointer transition-colors"
-                              onClick={() => handlePlayerClick(player.name)}
-                            >
-                              {player.name}
-                            </h4>
-                            <div className="flex items-center gap-2">
-                              <span className="text-sm px-2 py-1 rounded-full bg-slate-200 text-slate-600">Base: €{player.base_price}</span>
-                              <span className="text-sm px-2 py-1 rounded-full bg-emerald-100 text-emerald-600 font-medium">Cost: €{player.cost}</span>
-                            </div>
-                          </div>
-                          <div className="flex items-center justify-between text-sm">
-                            <span className="px-2 py-1 rounded-full bg-blue-100 text-blue-600">{player.skill}</span>
+                          <h4 
+                            className="font-medium text-slate-900 hover:text-emerald-600 cursor-pointer transition-colors truncate mb-3"
+                            onClick={() => handlePlayerClick(player.name)}
+                          >
+                            {player.name}
+                          </h4>
+                          <div className="flex flex-wrap gap-2">
+                            <span className="text-sm px-2 py-1 rounded-full bg-emerald-100 text-emerald-600 font-medium">Cost: €{player.cost}</span>
+                            <span className="text-sm px-2 py-1 rounded-full bg-blue-100 text-blue-600">{player.skill}</span>
                             <span className={`px-3 py-1 rounded-full ${
                               player.category === 'Category A+' ? 'bg-purple-600 text-white' :
                               player.category === 'Category A' ? 'bg-blue-600 text-white' :

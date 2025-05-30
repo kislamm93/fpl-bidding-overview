@@ -40,7 +40,7 @@ const TeamCard: React.FC<TeamCardProps> = ({ team, onClick }) => {
             <img
               src={`/fpl-bidding-overview/${encodeURIComponent(team.name)}.png`}
               alt={`${team.name} logo`}
-              className="w-10 h-10 object-contain"
+              className="w-full h-full object-cover"
               onError={handleImageError}
             />
           </div>
