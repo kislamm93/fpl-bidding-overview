@@ -22,7 +22,7 @@ const TeamCard: React.FC<TeamCardProps> = ({ team, onClick }) => {
 
   // Function to handle image loading errors
   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-    e.currentTarget.src = '/fpl-bidding-overview/placeholder.svg';
+    e.currentTarget.src = '/placeholder.svg';
   };
 
   return (
@@ -38,7 +38,7 @@ const TeamCard: React.FC<TeamCardProps> = ({ team, onClick }) => {
         <div className="flex items-center gap-3">
           <div className="w-12 h-12 rounded-lg overflow-hidden bg-white dark:bg-slate-700 shadow-sm flex items-center justify-center">
             <img
-              src={`/fpl-bidding-overview/${encodeURIComponent(team.name)}.png`}
+              src={`/${encodeURIComponent(team.name)}.png`}
               alt={`${team.name} logo`}
               className="w-full h-full object-cover"
               onError={handleImageError}

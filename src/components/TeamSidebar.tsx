@@ -175,11 +175,11 @@ const TeamSidebar: React.FC<TeamSidebarProps> = ({
               <div className="flex items-center gap-4">
                 <div className="w-20 h-20 rounded-xl overflow-hidden bg-white shadow-md flex items-center justify-center border-2 border-slate-200">
                   <img
-                    src={`/fpl-bidding-overview/${encodeURIComponent(team.name)}.png`}
+                    src={`/${encodeURIComponent(team.name)}.png`}
                     alt={`${team.name} logo`}
                     className="w-full h-full object-cover"
                     onError={(e) => {
-                      e.currentTarget.src = '/fpl-bidding-overview/placeholder.svg';
+                      e.currentTarget.src = '/placeholder.svg';
                     }}
                   />
                 </div>

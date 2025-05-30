@@ -28,7 +28,7 @@ const App = () => {
       <TooltipProvider>
         <Toaster />
         <Sonner />
-        <BrowserRouter basename="/fpl-bidding-overview">
+        <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/players" element={<Players />} />

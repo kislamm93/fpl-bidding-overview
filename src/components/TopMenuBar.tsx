@@ -15,7 +15,7 @@ const TopMenuBar: React.FC = () => {
         <div className="h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2">
             <img
-              src="/fpl-bidding-overview/tam.png"
+              src="/tam.png"
               alt="FPL Logo"
               className="w-8 h-8"
             />
