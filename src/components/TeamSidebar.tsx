@@ -172,7 +172,7 @@ const TeamSidebar: React.FC<TeamSidebarProps> = ({
           {/* Header */}
           <div className="p-6 border-b border-slate-200 bg-white">
             <div className="flex items-center justify-between mb-4">
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-4 flex-1">
                 <div className="w-20 h-20 rounded-xl overflow-hidden bg-white shadow-md flex items-center justify-center border-2 border-slate-200">
                   <img
                     src={`/${encodeURIComponent(team.name)}.png`}
@@ -183,22 +183,22 @@ const TeamSidebar: React.FC<TeamSidebarProps> = ({
                     }}
                   />
                 </div>
-                <div>
+                <div className="flex-1">
                   <h2 className="text-xl font-bold text-slate-900">{team.name}</h2>
                   <p className="text-sm text-slate-600">{team.owner}</p>
-                  <div className="mt-2 space-y-1">
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="text-slate-600">Budget Spent</span>
+                  <div className="mt-2 grid grid-cols-3 gap-2">
+                    <div className="flex flex-col">
+                      <span className="text-xs text-slate-500">Budget Spent</span>
                       <span className="font-semibold text-rose-600">€{team.budget_spent}</span>
                     </div>
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="text-slate-600">Budget Left</span>
+                    <div className="flex flex-col">
+                      <span className="text-xs text-slate-500">Budget Left</span>
                       <span className="font-semibold text-emerald-600">
                         €{team.budget - team.budget_spent}
                       </span>
                     </div>
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="text-slate-600">Budget Usage</span>
+                    <div className="flex flex-col">
+                      <span className="text-xs text-slate-500">Budget Usage</span>
                       <span className="font-semibold text-slate-900">
                         {((team.budget_spent / team.budget) * 100).toFixed(1)}%
                       </span>
@@ -208,7 +208,7 @@ const TeamSidebar: React.FC<TeamSidebarProps> = ({
               </div>
               <button
                 onClick={onClose}
-                className="p-2 hover:bg-slate-100 rounded-full transition-colors"
+                className="p-2 hover:bg-slate-100 rounded-full transition-colors ml-4"
               >
                 <X className="w-5 h-5 text-slate-600" />
               </button>
@@ -307,9 +307,9 @@ const TeamSidebar: React.FC<TeamSidebarProps> = ({
                             {player.name}
                           </h4>
                           <div className="flex flex-wrap gap-2">
-                            <span className="text-sm px-2 py-1 rounded-full bg-emerald-100 text-emerald-600 font-medium">Cost: €{player.cost}</span>
-                            <span className="text-sm px-2 py-1 rounded-full bg-blue-100 text-blue-600">{player.skill}</span>
-                            <span className={`px-3 py-1 rounded-full ${
+                            <span className="text-xs px-1.5 py-0.5 rounded-full bg-emerald-100 text-emerald-600 font-medium">Cost: €{player.cost}</span>
+                            <span className="text-xs px-1.5 py-0.5 rounded-full bg-blue-100 text-blue-600">{player.skill}</span>
+                            <span className={`text-xs px-2 py-0.5 rounded-full ${
                               player.category === 'Category A+' ? 'bg-purple-600 text-white' :
                               player.category === 'Category A' ? 'bg-blue-600 text-white' :
                               player.category === 'Category B' ? 'bg-emerald-600 text-white' :
