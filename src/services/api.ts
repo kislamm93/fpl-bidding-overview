@@ -99,4 +99,16 @@ export const api = {
       throw error;
     }
   },
+
+  removePlayer: async (playerId: string, secretKey: string): Promise<Player> => {
+    const response = await apiClient.put<Player>(`/players/${playerId}/remove`, {
+      secret_key: secretKey
+    });
+
+    if (!response.data) {
+      throw new Error('Failed to remove player');
+    }
+
+    return response.data;
+  },
 }; 

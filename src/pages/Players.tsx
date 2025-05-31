@@ -3,6 +3,7 @@ import { api } from '@/services/api';
 import { Search, ArrowUpDown, ArrowUp, ArrowDown, Lock, ArrowRightLeft, Clock } from 'lucide-react';
 import TransferModal from '@/components/TransferModal';
 import SuccessModal from '@/components/SuccessModal';
+import RemovePlayerModal from '@/components/RemovePlayerModal';
 import { storage } from '@/services/storage';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import TopMenuBar from '@/components/TopMenuBar';
@@ -42,6 +43,8 @@ const Players: React.FC = () => {
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const [transferSuccess, setTransferSuccess] = useState<{ playerName: string; teamName: string } | null>(null);
   const [hasSecretKey, setHasSecretKey] = useState(false);
+  const [isRemoveModalOpen, setIsRemoveModalOpen] = useState(false);
+  const [playerToRemove, setPlayerToRemove] = useState<Player | null>(null);
 
   useEffect(() => {
     const secretKey = storage.getSecretKey();
@@ -135,6 +138,15 @@ const Players: React.FC = () => {
     navigate(`/?team=${teamId}`);
   };
 
+  const handleRemoveClick = (player: Player) => {
+    setPlayerToRemove(player);
+    setIsRemoveModalOpen(true);
+  };
+
+  const handleRemoveSuccess = () => {
+    fetchPlayers(searchQuery); // Refresh the player list
+  };
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -217,15 +229,6 @@ const Players: React.FC = () => {
                   )}
                   <th 
                     className="px-6 py-3 text-left text-xs font-medium text-slate-600 uppercase tracking-wider cursor-pointer hover:bg-slate-100"
-                    onClick={() => handleSort('skill')}
-                  >
-                    <div className="flex items-center gap-2">
-                      Skill
-                      <SortIcon field="skill" />
-                    </div>
-                  </th>
-                  <th 
-                    className="px-6 py-3 text-left text-xs font-medium text-slate-600 uppercase tracking-wider cursor-pointer hover:bg-slate-100"
                     onClick={() => handleSort('category')}
                   >
                     <div className="flex items-center gap-2">
@@ -233,9 +236,20 @@ const Players: React.FC = () => {
                       <SortIcon field="category" />
                     </div>
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-600 uppercase tracking-wider">
-                    Status
+                  <th 
+                    className="px-6 py-3 text-left text-xs font-medium text-slate-600 uppercase tracking-wider cursor-pointer hover:bg-slate-100"
+                    onClick={() => handleSort('skill')}
+                  >
+                    <div className="flex items-center gap-2">
+                      Skill
+                      <SortIcon field="skill" />
+                    </div>
                   </th>
+                  {hasSecretKey && (
+                    <th className="px-6 py-3 text-left text-xs font-medium text-slate-600 uppercase tracking-wider">
+                      Status
+                    </th>
+                  )}
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-200">
@@ -279,9 +293,6 @@ const Players: React.FC = () => {
                       </td>
                     )}
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-slate-600">{player.skill}</div>
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
                       <span className={`px-3 py-1 rounded-full text-sm font-semibold ${
                         player.category === 'Category A+' ? 'bg-purple-600 text-white' :
                         player.category === 'Category A' ? 'bg-blue-600 text-white' :
@@ -293,22 +304,31 @@ const Players: React.FC = () => {
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center justify-center">
-                        {player.team ? (
-                          <Lock className="w-4 h-4 text-rose-600" />
-                        ) : hasSecretKey ? (
-                          <button 
-                            onClick={() => handleTransferClick(player)}
-                            className="p-1 hover:bg-emerald-100 rounded-full transition-colors"
-                            title="Transfer player"
-                          >
-                            <Clock className="w-4 h-4 text-emerald-600" />
-                          </button>
-                        ) : (
-                          <Clock className="w-4 h-4 text-slate-400" />
-                        )}
-                      </div>
+                      <div className="text-sm text-slate-600">{player.skill}</div>
                     </td>
+                    {hasSecretKey && (
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="flex items-center justify-center">
+                          {player.team ? (
+                            <button 
+                              onClick={() => handleRemoveClick(player)}
+                              className="p-1 hover:bg-rose-100 rounded-full transition-colors"
+                              title="Remove player from team"
+                            >
+                              <Lock className="w-4 h-4 text-rose-600" />
+                            </button>
+                          ) : (
+                            <button 
+                              onClick={() => handleTransferClick(player)}
+                              className="p-1 hover:bg-emerald-100 rounded-full transition-colors"
+                              title="Transfer player"
+                            >
+                              <Clock className="w-4 h-4 text-emerald-600" />
+                            </button>
+                          )}
+                        </div>
+                      </td>
+                    )}
                   </tr>
                 ))}
               </tbody>
@@ -335,6 +355,18 @@ const Players: React.FC = () => {
           onClose={handleSuccessModalClose}
           playerName={transferSuccess.playerName}
           teamName={transferSuccess.teamName}
+        />
+      )}
+
+      {playerToRemove && (
+        <RemovePlayerModal
+          player={playerToRemove}
+          isOpen={isRemoveModalOpen}
+          onClose={() => {
+            setIsRemoveModalOpen(false);
+            setPlayerToRemove(null);
+          }}
+          onSuccess={handleRemoveSuccess}
         />
       )}
     </div>
