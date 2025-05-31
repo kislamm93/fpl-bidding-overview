@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { api } from '@/services/api';
 import { Search, ArrowUpDown, ArrowUp, ArrowDown, Lock, ArrowRightLeft, Clock } from 'lucide-react';
 import TransferModal from '@/components/TransferModal';
@@ -7,6 +7,7 @@ import RemovePlayerModal from '@/components/RemovePlayerModal';
 import { storage } from '@/services/storage';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import TopMenuBar from '@/components/TopMenuBar';
+import useDebounce from '@/hooks/useDebounce';
 
 interface Player {
   _id: string;
@@ -36,6 +37,7 @@ const Players: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState(searchParams.get('search') || '');
+  const debouncedSearchQuery = useDebounce(searchQuery, 500);
   const [sortField, setSortField] = useState<SortField>('name');
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
   const [selectedPlayer, setSelectedPlayer] = useState<Player | null>(null);
@@ -45,6 +47,7 @@ const Players: React.FC = () => {
   const [hasSecretKey, setHasSecretKey] = useState(false);
   const [isRemoveModalOpen, setIsRemoveModalOpen] = useState(false);
   const [playerToRemove, setPlayerToRemove] = useState<Player | null>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const secretKey = storage.getSecretKey();
@@ -62,18 +65,29 @@ const Players: React.FC = () => {
       console.error('Error loading players:', err);
     } finally {
       setIsLoading(false);
+      searchInputRef.current?.focus();
     }
   };
 
   useEffect(() => {
-    const query = searchParams.get('search') || '';
-    setSearchQuery(query);
-    fetchPlayers(query);
-  }, [searchParams]);
+    if (debouncedSearchQuery !== searchParams.get('search')) {
+      setSearchParams(debouncedSearchQuery ? { search: debouncedSearchQuery } : {});
+    }
+  }, [debouncedSearchQuery, searchParams, setSearchParams]);
+
+  useEffect(() => {
+    fetchPlayers(debouncedSearchQuery);
+  }, [debouncedSearchQuery]);
+
+  // Focus search input on mount and after data refreshes
+  useEffect(() => {
+    if (!isLoading) {
+      searchInputRef.current?.focus();
+    }
+  }, [isLoading]);
 
   const handleSearchChange = (value: string) => {
     setSearchQuery(value);
-    setSearchParams(value ? { search: value } : {});
   };
 
   const handleSort = (field: SortField) => {
@@ -174,6 +188,7 @@ const Players: React.FC = () => {
           <h1 className="text-2xl font-bold text-slate-800">Players</h1>
           <div className="relative">
             <input
+              ref={searchInputRef}
               type="text"
               placeholder="Search players..."
               value={searchQuery}

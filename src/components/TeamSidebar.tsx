@@ -153,11 +153,6 @@ const TeamSidebar: React.FC<TeamSidebarProps> = ({
     }
   };
 
-  const handlePlayerClick = (playerName: string) => {
-    navigate(`/players?search=${encodeURIComponent(playerName)}`);
-    onClose();
-  };
-
   if (!isOpen) return null;
 
   return (
@@ -301,8 +296,7 @@ const TeamSidebar: React.FC<TeamSidebarProps> = ({
                           className={`p-4 bg-gradient-to-r from-slate-50 to-slate-100 rounded-lg border ${categoryColors.border} hover:shadow-md transition-all duration-200`}
                         >
                           <h4 
-                            className="font-medium text-slate-900 hover:text-emerald-600 cursor-pointer transition-colors truncate mb-3"
-                            onClick={() => handlePlayerClick(player.name)}
+                            className="font-medium text-slate-900 truncate mb-3"
                           >
                             {player.name}
                           </h4>
