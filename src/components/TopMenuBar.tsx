@@ -13,14 +13,17 @@ const TopMenuBar: React.FC = () => {
     <div className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-slate-200">
       <div className="container mx-auto px-4">
         <div className="h-16 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2">
+        <Link to="/" className="flex items-center gap-2">
+          <div className="relative w-8 h-8">
+            <div className="absolute inset-0 rounded-full bg-emerald-600 opacity-20"></div>
             <img
-              src="/tam.png"
+              src="/FPL.png"
               alt="FPL Logo"
-              className="w-8 h-8"
+              className="relative w-8 h-8"
             />
-            <span className="text-lg font-semibold text-slate-900 hidden sm:inline">FPL 2025</span>
-          </Link>
+          </div>
+          <span className="text-lg font-semibold text-slate-900 hidden sm:inline">Frankfurt Premier League 2025</span>
+        </Link>
 
           <nav className="flex items-center gap-3">
             <Link
@@ -54,10 +57,16 @@ const TopMenuBar: React.FC = () => {
                 isActive('/fixtures')
                   ? 'text-emerald-600 bg-emerald-50'
                   : 'text-slate-600 hover:text-emerald-600'
-              }`}
+              } relative`}
             >
-              <CalendarDays className="w-6 h-6" />
+              <CalendarDays className="w-6 h-6 animate-pulse" />
               <span className="hidden sm:inline">Fixtures</span>
+
+              {/* Subtle dot with pulse animation */}
+              <span
+                className="absolute top-2 right-2 w-2.5 h-2.5 rounded-full bg-emerald-600 animate-pulse"
+                aria-label="New fixture"
+              ></span>
             </Link>
           </nav>
         </div>
