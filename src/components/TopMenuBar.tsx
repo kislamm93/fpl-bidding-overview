@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Users, Trophy } from 'lucide-react';
+import { User, Users, CalendarDays } from 'lucide-react';
 
 const TopMenuBar: React.FC = () => {
   const location = useLocation();
@@ -19,31 +19,45 @@ const TopMenuBar: React.FC = () => {
               alt="FPL Logo"
               className="w-8 h-8"
             />
-            <span className="text-lg font-semibold text-slate-900">FPL 2025</span>
+            <span className="text-lg font-semibold text-slate-900 hidden sm:inline">FPL 2025</span>
           </Link>
 
-          <nav className="flex items-center gap-6">
+          <nav className="flex items-center gap-3">
             <Link
               to="/"
-              className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-colors ${
+              aria-label="Teams"
+              className={`flex items-center gap-2 px-4 py-3 rounded-lg transition-colors ${
                 isActive('/')
                   ? 'text-emerald-600 bg-emerald-50'
                   : 'text-slate-600 hover:text-emerald-600'
               }`}
             >
-              <Trophy className="w-5 h-5" />
-              <span>Teams</span>
+              <Users className="w-6 h-6" />
+              <span className="hidden sm:inline">Teams</span>
             </Link>
             <Link
               to="/players"
-              className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-colors ${
+              aria-label="Players"
+              className={`flex items-center gap-2 px-4 py-3 rounded-lg transition-colors ${
                 isActive('/players')
                   ? 'text-emerald-600 bg-emerald-50'
                   : 'text-slate-600 hover:text-emerald-600'
               }`}
             >
-              <Users className="w-5 h-5" />
-              <span>Players</span>
+              <User className="w-6 h-6" />
+              <span className="hidden sm:inline">Players</span>
+            </Link>
+            <Link
+              to="/fixtures"
+              aria-label="Fixtures"
+              className={`flex items-center gap-2 px-4 py-3 rounded-lg transition-colors ${
+                isActive('/fixtures')
+                  ? 'text-emerald-600 bg-emerald-50'
+                  : 'text-slate-600 hover:text-emerald-600'
+              }`}
+            >
+              <CalendarDays className="w-6 h-6" />
+              <span className="hidden sm:inline">Fixtures</span>
             </Link>
           </nav>
         </div>
