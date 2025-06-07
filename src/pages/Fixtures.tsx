@@ -301,11 +301,7 @@ const Fixtures: React.FC = () => {
                               Group {match.group}
                             </span>
                             <span className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-slate-100 text-slate-800">
-                              {new Date(match.start_time).toLocaleTimeString('en-US', {
-                                hour: 'numeric',
-                                minute: '2-digit',
-                                hour12: true
-                              })}
+                              {match.start_time}
                             </span>
                             <span className={`inline-flex items-center px-2 py-1 rounded text-xs font-medium ${getGroundColor(match.ground)}`}>
                               {match.ground}
@@ -320,8 +316,14 @@ const Fixtures: React.FC = () => {
             })}
           </TabsContent>
           <TabsContent value="knockout-stage">
-            <div className="flex items-center justify-center min-h-[300px]">
-              <span className="text-xl text-slate-500 font-semibold text-center">Knockout stage will be added soon.</span>
+            <div className="w-full max-w-screen-xl mx-auto px-4 py-8">
+              <div className="w-full rounded-lg overflow-hidden bg-white dark:bg-slate-700 shadow-sm flex items-center justify-center">
+                <img
+                  src="/KO_stage.png"
+                  alt="Knockout Stage"
+                  className="w-full h-auto object-contain"
+                />
+              </div>
             </div>
           </TabsContent>
         </Tabs>
