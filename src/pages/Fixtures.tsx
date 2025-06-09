@@ -27,6 +27,7 @@ import {
 } from '@/components/ui/command';
 import { X } from 'lucide-react';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+import koStageData from '@/data/ko_stage.json';
 
 interface Match {
   day: string;
@@ -37,6 +38,7 @@ interface Match {
   team_2: string;
   match_round: string;
   group: string;
+  match?: string;
 }
 
 const getGroupColor = (group: string) => {
@@ -316,14 +318,88 @@ const Fixtures: React.FC = () => {
             })}
           </TabsContent>
           <TabsContent value="knockout-stage">
-            <div className="w-full max-w-screen-xl mx-auto px-4 py-8">
-              <div className="w-full rounded-lg overflow-hidden bg-white dark:bg-slate-700 shadow-sm flex items-center justify-center">
-                <img
-                  src="/KO_stage.png"
-                  alt="Knockout Stage"
-                  className="w-full h-auto object-contain"
-                />
+            <div className="w-full max-w-screen-md mx-auto px-4 py-8">
+              <div className="flex justify-center mb-6">
+                <span className="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-blue-100 text-blue-800 text-sm font-semibold shadow-sm">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+                  All matches will be played on {new Date('2025-06-22').toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+                </span>
               </div>
+              {(() => {
+                const stages = [
+                  { label: 'Qualifier', color: 'bg-blue-50 border-blue-100', matches: koStageData.filter(m => m.round === 'Qualifier') },
+                  { label: 'Semifinal', color: 'bg-purple-50 border-purple-100', matches: koStageData.filter(m => m.round === 'Semifinal') },
+                  { label: 'Final', color: 'bg-red-50 border-red-100', matches: koStageData.filter(m => m.round === 'Final') },
+                ];
+                const [open, setOpen] = React.useState({
+                  Qualifier: true,
+                  Semifinal: true,
+                  Final: true,
+                });
+                return (
+                  <div className="flex flex-col gap-6">
+                    {stages.map(stage => {
+                      let timeRange = '';
+                      if (stage.matches.length > 0) {
+                        const first = stage.matches[0];
+                        const allSameTime = stage.matches.every(m => m.start_time === first.start_time && m.end_time === first.end_time);
+                        if (allSameTime) {
+                          timeRange = `${first.start_time} - ${first.end_time}`;
+                        }
+                      }
+                      return (
+                        <Collapsible
+                          key={stage.label}
+                          open={open[stage.label]}
+                          onOpenChange={() => setOpen(o => ({ ...o, [stage.label]: !o[stage.label] }))}
+                          className="mb-2"
+                        >
+                          <CollapsibleTrigger className={`w-full flex items-center justify-between px-4 py-3 rounded-lg font-bold text-lg border-2 ${
+                            stage.label === 'Qualifier' ? 'bg-blue-100 border-blue-200 text-blue-900' :
+                            stage.label === 'Semifinal' ? 'bg-purple-100 border-purple-200 text-purple-900' :
+                            'bg-red-100 border-red-200 text-red-900'
+                          }`}>
+                            <span>{stage.label}</span>
+                            <div className="flex-1" />
+                            {timeRange && (
+                              <span className="text-base font-semibold text-slate-700 mr-4 whitespace-nowrap">{timeRange}</span>
+                            )}
+                            <ChevronDown className={`w-5 h-5 transition-transform ${open[stage.label] ? 'rotate-180' : ''}`} />
+                          </CollapsibleTrigger>
+                          <CollapsibleContent className="mt-2">
+                            <div className="flex flex-col gap-4">
+                              {stage.matches.map((match, idx) => (
+                                <div
+                                  key={idx}
+                                  className={`rounded-lg shadow-sm p-4 border flex items-center gap-3 justify-between ${stage.color}`}
+                                >
+                                  <div className="flex items-center gap-3">
+                                    <span className={`inline-flex items-center px-2 py-1 rounded text-xs font-medium ${getGroundColor(match.ground)}`}>{match.ground}</span>
+                                    <span className="flex items-center gap-2 text-base font-medium">
+                                      <span>{match.team_1}</span>
+                                      <span className="mx-2 text-slate-400">vs</span>
+                                      <span>{match.team_2}</span>
+                                    </span>
+                                  </div>
+                                  {(stage.label === 'Qualifier' || stage.label === 'Semifinal') && match.match && (
+                                    <span className={`inline-flex items-center px-2 py-1 rounded text-xs font-bold ml-2 ${
+                                      stage.label === 'Qualifier'
+                                        ? 'bg-blue-200 text-blue-900'
+                                        : 'bg-purple-200 text-purple-900'
+                                    }`}>
+                                      {match.match.replace(/_/g, '')}
+                                    </span>
+                                  )}
+                                </div>
+                              ))}
+                            </div>
+                          </CollapsibleContent>
+                        </Collapsible>
+                      );
+                    })}
+                  </div>
+                );
+              })()}
             </div>
           </TabsContent>
         </Tabs>

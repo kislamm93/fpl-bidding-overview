@@ -1,0 +1,56 @@
+[
+  {
+    "match": "QF_1",
+    "team_1": "A2",
+    "team_2": "B3",
+    "round": "Qualifier",
+    "next": "QF_1_Winner",
+    "day": "2025-06-22",
+    "start_time": "02:00 PM",
+    "end_time": "02:50 PM",
+    "ground": "Ground 1"
+  },
+  {
+    "match": "QF_2",
+    "team_1": "B2",
+    "team_2": "A3",
+    "round": "Qualifier",
+    "next": "QF_2_Winner",
+    "day": "2025-06-22",
+    "start_time": "02:00 PM",
+    "end_time": "02:50 PM",
+    "ground": "Ground 2"
+  },
+  {
+    "match": "SF_1",
+    "team_1": "A1",
+    "team_2": "QF_2_Winner",
+    "round": "Semifinal",
+    "next": "SF_1_Winner",
+    "day": "2025-06-22",
+    "start_time": "03:30 PM",
+    "end_time": "04:20 PM",
+    "ground": "Ground 1"
+  },
+  {
+    "match": "SF_2",
+    "team_1": "B1",
+    "team_2": "QF_1_Winner",
+    "round": "Semifinal",
+    "next": "SF_2_Winner",
+    "day": "2025-06-22",
+    "start_time": "03:30 PM",
+    "end_time": "04:20 PM",
+    "ground": "Ground 2"
+  },
+  {
+    "match": "Final",
+    "team_1": "SF_1_Winner",
+    "team_2": "SF_2_Winner",
+    "round": "Final",
+    "day": "2025-06-22",
+    "start_time": "05:00 PM",
+    "end_time": "06:00 PM",
+    "ground": "TBD"
+  }
+] 
