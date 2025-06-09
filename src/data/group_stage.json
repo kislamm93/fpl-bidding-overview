@@ -24,7 +24,7 @@
     "start_time": "09:30 AM",
     "end_time": "10:20 AM",
     "ground": "Ground 1",
-    "team_1": "Elite squad",
+    "team_1": "Elite Squad",
     "team_2": "Strike Force",
     "match_round": "Group Stage",
     "group": "A"
@@ -44,7 +44,7 @@
     "start_time": "10:30 AM",
     "end_time": "11:20 AM",
     "ground": "Ground 1",
-    "team_1": "RED CYBORGS",
+    "team_1": "Red Cyborgs",
     "team_2": "Titans am Main",
     "match_round": "Group Stage",
     "group": "A"
@@ -75,7 +75,7 @@
     "end_time": "12:20 PM",
     "ground": "Ground 2",
     "team_1": "Frankfurter Bangla Kings",
-    "team_2": "Elite squad",
+    "team_2": "Elite Squad",
     "match_round": "Group Stage",
     "group": "A"
   },
@@ -104,7 +104,7 @@
     "start_time": "02:00 PM",
     "end_time": "02:50 PM",
     "ground": "Ground 1",
-    "team_1": "RED CYBORGS",
+    "team_1": "Red Cyborgs",
     "team_2": "Frankfurter Bangla Kings",
     "match_round": "Group Stage",
     "group": "A"
@@ -154,8 +154,8 @@
     "start_time": "04:00 PM",
     "end_time": "04:50 PM",
     "ground": "Ground 2",
-    "team_1": "Elite squad",
-    "team_2": "RED CYBORGS",
+    "team_1": "Elite Squad",
+    "team_2": "Red Cyborgs",
     "match_round": "Group Stage",
     "group": "A"
   },
@@ -185,7 +185,7 @@
     "end_time": "06:50 PM",
     "ground": "Ground 1",
     "team_1": "Frankfurt Gladiators",
-    "team_2": "Elite squad",
+    "team_2": "Elite Squad",
     "match_round": "Group Stage",
     "group": "A"
   },
@@ -225,7 +225,7 @@
     "end_time": "10:20 AM",
     "ground": "Ground 1",
     "team_1": "Titans am Main",
-    "team_2": "Elite squad",
+    "team_2": "Elite Squad",
     "match_round": "Group Stage",
     "group": "A"
   },
@@ -255,7 +255,7 @@
     "end_time": "11:20 AM",
     "ground": "Ground 2",
     "team_1": "Frankfurt Gladiators",
-    "team_2": "RED CYBORGS",
+    "team_2": "Red Cyborgs",
     "match_round": "Group Stage",
     "group": "A"
   },
@@ -285,7 +285,7 @@
     "end_time": "01:20 PM",
     "ground": "Ground 1",
     "team_1": "Strike Force",
-    "team_2": "RED CYBORGS",
+    "team_2": "Red Cyborgs",
     "match_round": "Group Stage",
     "group": "A"
   },
